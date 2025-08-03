@@ -1,13 +1,19 @@
 import express from 'express'
+import cors from 'cors'
+import {clerkMiddleware} from '@clerk/express'
 import { ENV } from './config/env.js'
 import {connectDB} from './config/db.js'
+import userRouter from './routers/user.route.js'
+
+
 
 const app = express()
-connectDB()
+app.use(cors())
+app.use(express.json())
+app.use(clerkMiddleware())
 
 app.get('/',(req,res)=>res.send('Hello Man I got it....'))
-
-
+app.use('/api/users',userRouter)
 
 const startServer = async () => {
   try {
